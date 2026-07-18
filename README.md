@@ -1,10 +1,9 @@
 # StingrayPL
 ## Stingray is a conditionally statically typed programming language written in AtomVM for writing efficient servers on small devices like ESP32, etc
-# Stingray Compiler
-
+###RU:
 Компилятор языка Stingray → Erlang BEAM байткод.
 
-## Структура
+## Структура 
 
 ```
 src/                          # Компилятор
@@ -202,3 +201,64 @@ code --install-extension stingray-lang-0.3.0.vsix
 ## Зависимости
 
 - Erlang/OTP 27+
+
+###EN:
+``
+
+### Arrays
+
+```stingray
+nums = [1, 2, 3]
+io.write(nums[0]) // 1
+io.write(nums.length) // 3
+nums2 = nums.push(4) // [1,2,3,4]
+last = nums2.pop() // 4
+```
+
+### Parallel execution
+
+```stingray
+#sideway# func() // async
+#flow:300# func() // 300 parallel copies
+```
+
+## Chat server and client
+
+### Server (on Stingray)
+
+```bash
+# Compile
+escript test.erl --compile examples/chat_server.sr
+
+# Run
+erl -pa src -noshell -eval "chat_server:main()."
+```
+
+### Client (on Stingray)
+
+```bash
+# Compile
+escript test.erl --compile examples/chat_client.sr
+
+# Run (in another terminal)
+erl -pa src -pa examples -noshell -eval "chat_client:main()."
+```
+
+### Example session
+
+**Server:**
+```
+=== Stingray Chat Server ===
+Listening on localhost:9999
+Server started!
++ Client connected
+msg: Hello from Stingray!
+- Client disconnected
+```
+
+**Client:**
+```
+=== Stingray Chat Client ===
+Connecting to localhost:9999...
+Connected!
+Server:
