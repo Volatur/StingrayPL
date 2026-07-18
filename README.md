@@ -1,9 +1,9 @@
 # StingrayPL
 ## Stingray is a conditionally statically typed programming language written in AtomVM for writing efficient servers on small devices like ESP32, etc
 ###RU:
-Компилятор языка Stingray → Erlang BEAM байткод.
+ Stingray → Erlang BEAM (AtomVM)
 
-## Структура 
+## Структура / Structure 
 
 ```
 src/                          # Компилятор
@@ -37,9 +37,9 @@ test.erl                      # Escript для компиляции .sr
 stingray-lang-0.3.0.vsix      # Расширение для VS Code
 ```
 
-## Быстрый старт
+## Быстрый старт / Fast starting 
 
-### Компиляция модулей
+### Компиляция модулей / Modules compilation 
 
 ```bash
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
@@ -53,29 +53,29 @@ erlc -o src src/stingray_codegen.erl
 erlc -o src src/stingray_runtime.erl
 ```
 
-### Запуск тестов
+### Запуск тестов / Testing programm without compile 
 
 ```bash
 erlc -o tests tests/run_tests.erl
 erl -pa src -pa tests -noshell -eval "run_tests:run(), halt()."
 ```
 
-### Компиляция .sr файла
+### Компиляция .sr файла / .sr compilation 
 
 ```bash
 escript test.erl --compile examples/hello_world.sr
 ```
 
-## Синтаксис
+## Синтаксис / Syntax 
 
-### Функции
+### Функции / Functions
 
 ```stingray
 fun main() { io.write("Hello World") }
 fun add(a: Int32, b: Int32) { a + b }
 ```
 
-### Переменные
+### Переменные / Variables logic
 
 ```stingray
 x: Int32 = 42
@@ -83,7 +83,7 @@ y = 3.14
 name = "Stingray"
 ```
 
-### Строки (сложение)
+### Строки (сложение) / String 
 
 ```stingray
 c = "Hello" + " World"         // "Hello World"
@@ -103,7 +103,7 @@ if a > 0 && b < 10 || c == 42 { io.write("ok") }
 if not flag { io.write("!flag") }
 ```
 
-### Циклы
+### Циклы / Cycle
 
 ```stingray
 i = 0
@@ -126,7 +126,7 @@ p = Point.new(10, 20)
 io.write(p.x)
 ```
 
-### Массивы
+### Массивы / Array`s
 
 ```stingray
 nums = [1, 2, 3]
@@ -136,16 +136,16 @@ nums2 = nums.push(4)        // [1,2,3,4]
 last = nums2.pop()          // 4
 ```
 
-### Параллельное выполнение
+### Параллельное выполнение / Parallel functions 
 
 ```stingray
 #sideway# func()            // async
-#flow:300# func()           // 300 параллельных копий
+#flow:300# func()           // 300 параллельных копий/ 300 Parallel copies
 ```
 
-## Чат-сервер и клиент
+## Чат-сервер и клиент // Server and client
 
-### Сервер (на Stingray)
+### Сервер (на Stingray) / Server
 
 ```bash
 # Скомпилировать
@@ -155,7 +155,7 @@ escript test.erl --compile examples/chat_server.sr
 erl -pa src -noshell -eval "chat_server:main()."
 ```
 
-### Клиент (на Stingray)
+### Клиент (на Stingray) / Client
 
 ```bash
 # Скомпилировать
@@ -165,7 +165,7 @@ escript test.erl --compile examples/chat_client.sr
 erl -pa src -pa examples -noshell -eval "chat_client:main()."
 ```
 
-### Пример сессии
+### Пример сессии // Session 
 
 **Сервер:**
 ```
@@ -198,67 +198,6 @@ code --install-extension stingray-lang-0.3.0.vsix
 .sr → Lexer → Parser → AST → Codegen → Erlang forms → compile:forms → .beam
 ```
 
-## Зависимости
+## Зависимости // Installation before using Stingray 
 
 - Erlang/OTP 27+
-
-###EN:
-``
-
-### Arrays
-
-```stingray
-nums = [1, 2, 3]
-io.write(nums[0]) // 1
-io.write(nums.length) // 3
-nums2 = nums.push(4) // [1,2,3,4]
-last = nums2.pop() // 4
-```
-
-### Parallel execution
-
-```stingray
-#sideway# func() // async
-#flow:300# func() // 300 parallel copies
-```
-
-## Chat server and client
-
-### Server (on Stingray)
-
-```bash
-# Compile
-escript test.erl --compile examples/chat_server.sr
-
-# Run
-erl -pa src -noshell -eval "chat_server:main()."
-```
-
-### Client (on Stingray)
-
-```bash
-# Compile
-escript test.erl --compile examples/chat_client.sr
-
-# Run (in another terminal)
-erl -pa src -pa examples -noshell -eval "chat_client:main()."
-```
-
-### Example session
-
-**Server:**
-```
-=== Stingray Chat Server ===
-Listening on localhost:9999
-Server started!
-+ Client connected
-msg: Hello from Stingray!
-- Client disconnected
-```
-
-**Client:**
-```
-=== Stingray Chat Client ===
-Connecting to localhost:9999...
-Connected!
-Server:
